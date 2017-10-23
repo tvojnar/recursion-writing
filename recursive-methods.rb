@@ -1,23 +1,64 @@
 # Authoring recursive algorithms. Add comments including time and space complexity for each method.
+
+# NOTE: The time complexity of the factorial method is O(n), where n is the value of the interger passed in as a parameter, because there will be n recursive function calls before an output can be calculated.
+# NOTE: The space complexity is also O(n) because there will be n stackframes before an output can be calculated. The space complexity of the method itself (not including the stack frames) is O(1) because only memory for the return value of the function is allocated (QUESTION: is there any memory allocated for the return value??)
 def factorial(n)
-  puts "Not implemented."
+  if n == 0
+    return 1
+  end
+  return n * factorial(n-1)
 end
 
+# NOTE: The time complexity is O(n) where n is the length of the string. This is because there will be n recursive function calls before the reversed string can be returned.
+# NOTE: The space complexity is O(n) where n is the length of the string. This is because n stack frames will be created and memory needs to be allocated for a string of length n.
 def reverse(s)
-  puts "Not implemented."
-end
+  # create the string variable so we don't modify the string passed in as a parameter
+  string = s
+  if string.length < 2
+    return s
+  end
 
+  last_el = string[-1]
+  others = string[0...-1]
+  others = reverse(others)
+  return last_el + others
+end # reverse
+
+ # NOTE: The time complexity is O(n) where n is the length of the string. This is because there will be n recursive function calls before the reversed string can be returned.
+ # NOTE: The space complexity id O(n) there will be n recursive function calls which will result in stack frames that use memory in the stack. This method also
 def reverse_inplace(s)
-  puts "Not implemented."
-end
+  if s.length < 2
+    return s
+  end
 
+  last_el = s[-1]
+  others = s[0...-1]
+  others = reverse_inplace(others)
+  return last_el + others
+end # reverse_inplace
+
+# NOTE: The time complexity is O(n), where n is the integer value of the input parameter. This is because there will be n recursive runction calls before the output can be returned.
+# NOTE: The space complexity is also O(n) because there will be n stack frames.
 def bunny(n)
-  puts "Not implemented."
+  if n === 0
+    return 0
+  end
+
+  return 2 + bunny(n-1)
 end
 
-def nested(s)
-  puts "Not implemented."
-end
+def nested(s, i, j=s.length)
+  if s.length % 2 != 0 || s.length < 2
+    return false
+  end
+
+  if s[i] != s[j]
+    return false
+  end
+
+  nested(s, i + 1, j -1)
+  return true
+end # nested
 
 def search(array, value)
   puts "Not implemented."
