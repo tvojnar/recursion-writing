@@ -26,16 +26,28 @@ end # reverse
 
  # NOTE: The time complexity is O(n) where n is the length of the string. This is because there will be n recursive function calls before the reversed string can be returned.
  # NOTE: The space complexity id O(n) there will be n recursive function calls which will result in stack frames that use memory in the stack. This method also
-def reverse_inplace(s)
-  if s.length < 2
-    return s
-  end
+ def reverse_inplace(s)
+  # This is a wrapper method
+  return reverse_inplace_2(s, 0, s.length - 1)
+end
 
-  last_el = s[-1]
-  others = s[0...-1]
-  others = reverse_inplace(others)
-  return last_el + others
-end # reverse_inplace
+ def reverse_inplace_2(s, i , j)
+
+   if s.length < 2
+     return s
+   end
+
+   if j <= i
+     return s
+   end
+
+   temp = s[i]
+   s[i] = s[j]
+   s[j] = temp
+
+   return reverse_inplace_2(s, i + 1, j - 1)
+
+ end # reverse_inplace
 
 # NOTE: The time complexity is O(n), where n is the integer value of the input parameter. This is because there will be n recursive runction calls before the output can be returned.
 # NOTE: The space complexity is also O(n) because there will be n stack frames.
@@ -47,21 +59,50 @@ def bunny(n)
   return 2 + bunny(n-1)
 end
 
-def nested(s, i, j=s.length)
+# NOTE: The time complexity is O(n/2) or O(n) because there will be n/2 recursive calls, where n is the length of s.
+# NOTE: the space complexity is O(n) as well because there will be n/2 stack frames created.
+def nested(s)
+  # this is a wrapper method
+  return nested_2(s, 0, (s.length - 1) )
+end
+
+def nested_2(s, i, j)
   if s.length % 2 != 0 || s.length < 2
     return false
   end
 
-  if s[i] != s[j]
+  if j <= i
+    return true
+  end
+
+  if s[i] == s[j]
     return false
   end
 
-  nested(s, i + 1, j -1)
+  nested_2(s, i + 1, j - 1)
   return true
 end # nested
 
+
 def search(array, value)
-  puts "Not implemented."
+  search_2(array, value, 0)
+end # search
+
+def search_2(array, value, i)
+  len = array.length
+  if len < 1
+    return false
+  end
+
+  if i >= len
+    return false
+  end
+
+  if array[i] == value
+    return true
+  end
+
+  search_2(array, value, i + 1)
 end
 
 def is_palindrome(s)
@@ -97,8 +138,8 @@ raise "bunny broke - bunny(10)" unless bunny(10) == 20
 puts "passes all bunny tests"
 
 # Nested Tests
-raise "nested broke - nested('((()))')" unless reverse("((()))") == true
-raise "nested broke - nested('())')" unless reverse("())") == false
+raise "nested broke - nested('((()))')" unless nested("((()))") == true
+raise "nested broke - nested('())')" unless nested("())") == false
 puts "passes all nested tests"
 
 # Search Tests
